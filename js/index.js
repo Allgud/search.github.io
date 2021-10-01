@@ -11,11 +11,11 @@ function App(){
         let value = e.target.value.trim()
         if(value.length !== 0) getData(value)
         
-    }, 200)
+    }, 180)
   })
 }
 
-const getData = async (text = 'repos:react') => {
+const getData = async (text) => {
     
     const res = await fetch( `https://api.github.com/search/repositories?q=${text}&sort=stars`)
     const json = await res.json()
@@ -26,7 +26,13 @@ const getData = async (text = 'repos:react') => {
         return item.name.match(regex)
     })
 
-    if(text !== 'repos:react') createSearchList(matches)
+    createSearchList(matches)
+    input.addEventListener('input', (e) => {
+        if(e.target.value === ''){
+            let visible = document.querySelector('.visible')
+            clearList(visible)
+        }
+    })
  
 }
 
